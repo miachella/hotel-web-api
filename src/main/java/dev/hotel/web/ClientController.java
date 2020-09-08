@@ -4,9 +4,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.hotel.entite.Client;
 import dev.hotel.service.ClientService;
+import dev.hotel.web.client.CreerClientRequestDto;
+import dev.hotel.web.client.CreerClientResponseDto;
 
 @RestController
 public class ClientController {
@@ -40,6 +47,20 @@ public class ClientController {
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Veuillez entrer un autre identifiant client");
 		}
+
+	}
+
+	@PostMapping(path = "clients", consumes = "application/json", produces = "application/json")
+	public ResponseEntity<?> postClient(@RequestBody @Valid CreerClientRequestDto client,
+			BindingResult resultatValidation) {
+
+		if (resultatValidation.hasErrors()) {
+			return ResponseEntity.badRequest()
+					.body("Erreur : la donnée n'a pas pu être rentrée en base à cause d'un nom/prénom trop court");
+		}
+
+		return ResponseEntity
+				.ok(new CreerClientResponseDto(clientService.creerNouveauClient(client.getNom(), client.getPrenoms())));
 
 	}
 

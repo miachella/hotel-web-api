@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -52,6 +53,21 @@ public class ClientControllerTest {
 		// then
 		mockMvc.perform(MockMvcRequestBuilders.get("/clients/{uuid}", id)).andExpect(status().isOk())
 				.andExpect(jsonPath("$.nom").value("Boop")).andExpect(jsonPath("$.prenoms").value("Betty"));
+	}
+
+	@Test
+	void testPostClient() throws Exception {
+		// get
+		Client client = new Client();
+		client.setNom("Rabbit");
+		client.setPrenoms("Roger");
+		// when
+		Mockito.when(clientService.creerNouveauClient("Rabbit", "Roger")).thenReturn(client);
+		// then
+
+		mockMvc.perform((MockMvcRequestBuilders.post("/clients")).contentType(MediaType.APPLICATION_JSON)
+				.content("{\"nom\": \"Rabbit\", \"prenoms\": \"Roger\" }").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
 	}
 
 }
