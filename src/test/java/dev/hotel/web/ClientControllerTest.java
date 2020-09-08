@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import dev.hotel.entite.Client;
 import dev.hotel.service.ClientService;
+import dev.hotel.web.client.ClientController;
 
 @WebMvcTest(ClientController.class)
 public class ClientControllerTest {
