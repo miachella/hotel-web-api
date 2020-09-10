@@ -32,7 +32,7 @@ public class ReservationsController {
 	public ResponseEntity<?> postResa(@RequestBody CreerResaRequestDto resa) {
 
 		return ResponseEntity.ok(new CreerResaResponseDto(resaService.creerNouvelleReservation(resa.getDateDebut(),
-				resa.getDateFin(), resa.getClient(), resa.getChambres())));
+				resa.getDateFin(), resa.getClientId(), resa.getChambres())));
 
 	}
 
