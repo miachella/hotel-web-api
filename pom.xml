@@ -61,4 +61,29 @@
         </plugins>
     </build>
 
+	<profiles>
+		<profile>
+			<id>local</id>
+			<dependencies>
+				<dependency>
+					<groupId>mysql</groupId>
+					<artifactId>mysql-connector-java</artifactId>
+					<scope>runtime</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>heroku</id>
+			<activation>
+			<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+				<dependency>
+   					<groupId>org.postgresql</groupId>
+    				<artifactId>postgresql</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 </project>
